@@ -44,9 +44,9 @@ const SignUpButton = styled.button`
   background-color: ${props => props.theme.colors.blue};
   color: ${props => props.theme.colors.white};
   border: none;
-  margin: 0.5rem;
   width: 10rem;
-  height: 2rem;
+  height: 3rem;
+  cursor: pointer;
 `;
 
 export default Login;
