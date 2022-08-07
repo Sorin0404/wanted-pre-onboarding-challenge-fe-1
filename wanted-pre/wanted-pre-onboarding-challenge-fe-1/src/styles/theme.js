@@ -1,4 +1,4 @@
-const calcRem = (size) => `${size / 16}rem`;
+const calcRem = size => `${size / 16}rem`;
 
 const fontSizes = {
   // ! 15px은 16px or 14px 선택, 13px은 12px로 바꿔쓰세요.
@@ -12,12 +12,12 @@ const fontSizes = {
 };
 
 const fontWeights = {
-  thin: "200",
-  light: "300",
-  regular: "400",
-  bold: "500",
-  semiBold: "600",
-  extraBold: "700",
+  thin: '200',
+  light: '300',
+  regular: '400',
+  bold: '500',
+  semiBold: '600',
+  extraBold: '700',
 };
 
 const paddings = {
@@ -39,25 +39,26 @@ const margins = {
 };
 
 const colors = {
-  green: "#41b979",
-  red: "#ef6253",
-  black: "#222222",
-  darkGray: "#4D4D4D",
-  gray: "#8E8E8E",
-  lightGray: "#f4f4f4",
-  disabled: "#ebebeb",
-  white: "#ffffff",
-  purple: "#342461",
-  mint: "#027b94",
+  green: '#41b979',
+  red: '#ef6253',
+  black: '#222222',
+  darkGray: '#4D4D4D',
+  gray: '#8E8E8E',
+  lightGray: '#f4f4f4',
+  disabled: '#ebebeb',
+  white: '#ffffff',
+  purple: '#342461',
+  mint: '#027b94',
+  blue: '#3366FF',
 };
 
 const borders = {
-  gray: "1px solid #d3d3d3",
-  lightGray: "1px solid #ebebeb",
+  gray: '1px solid #d3d3d3',
+  lightGray: '1px solid #ebebeb',
 };
 
 const flex = {
-  flexBox: (direction = "row", align = "center", justify = "center") => `
+  flexBox: (direction = 'row', align = 'center', justify = 'center') => `
     display: flex;
     flex-direction: ${direction};
     align-items: ${align};
