@@ -41,6 +41,7 @@ const SignUp = () => {
       })
       .then(function (response) {
         console.log(response);
+        alert('계정이 성공적으로 생성되었습니다');
         navigate('/login');
       })
       .catch(function (error) {
@@ -116,6 +117,7 @@ const EmailInput = styled.input.attrs(props => ({
   width: 20rem;
   height: 3rem;
   margin: 0.5rem;
+  padding: 0.7rem;
   font-size: 1.2rem;
 `;
 
@@ -135,12 +137,19 @@ const PasswordCheckInput = styled(PasswordInput).attrs(props => ({
 const DifferentPassword = styled(EmailForm)``;
 
 const SignUpButton = styled.button`
-  background-color: ${props => props.theme.colors.blue};
-  color: ${props => props.theme.colors.white};
   border: none;
   margin: 2rem 0;
   width: 10rem;
   height: 3rem;
+  font-size: 1.2rem;
+  background-color: ${props => props.theme.colors.blue};
+  color: ${props => props.theme.colors.white};
+  cursor: pointer;
+
+  &:disabled {
+    background-color: ${props => props.theme.colors.disabled};
+    color: ${props => props.theme.colors.gray};
+  }
 `;
 
 export default SignUp;

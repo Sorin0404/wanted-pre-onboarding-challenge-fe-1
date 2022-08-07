@@ -28,18 +28,29 @@ const LoginForm = () => {
 
   const goToTodoList = e => {
     e.preventDefault();
-
     axios
-      .post(API.login, {
-        email: id,
-        password: pw,
-      })
+      .post(
+        API.login,
+        {
+          email: id,
+          password: pw,
+        },
+        {
+          headers: {
+            'Content-Type': 'application/json',
+            Authorization: 'token',
+          },
+        }
+      )
       .then(function (response) {
         console.log(response);
+        localStorage.setItem('token', response.data.token);
+        alert('성공적으로 로그인 했습니다');
         navigate('/todolist');
       })
       .catch(function (error) {
         console.log(error);
+        alert('ID 또는 비밀번호가 틀립니다.');
       });
   };
 
@@ -68,6 +79,7 @@ const IdInput = styled.input.attrs(props => ({
   width: 20rem;
   height: 3rem;
   margin: 0.5rem;
+  padding: 0.7rem;
   font-size: 1.2rem;
 `;
 
@@ -78,14 +90,19 @@ const PasswordInput = styled(IdInput).attrs(props => ({
 }))``;
 
 const LoginButton = styled.button`
-  background-color: ${props => props.theme.colors.blue};
-  color: ${props => props.theme.colors.white};
   border: none;
   margin: 1rem 0;
   width: 10rem;
   height: 3rem;
+  font-size: 1.2rem;
+  background-color: ${props => props.theme.colors.blue};
+  color: ${props => props.theme.colors.white};
+  cursor: pointer;
 
-  &disabled
+  &:disabled {
+    background-color: ${props => props.theme.colors.disabled};
+    color: ${props => props.theme.colors.gray};
+  }
 `;
 
 export default LoginForm;

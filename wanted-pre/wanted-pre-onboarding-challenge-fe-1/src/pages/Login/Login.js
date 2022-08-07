@@ -41,11 +41,12 @@ const LoginPageInfo = styled.div`
 `;
 
 const SignUpButton = styled.button`
-  background-color: ${props => props.theme.colors.blue};
-  color: ${props => props.theme.colors.white};
   border: none;
   width: 10rem;
   height: 3rem;
+  font-size: 1.2rem;
+  background-color: ${props => props.theme.colors.blue};
+  color: ${props => props.theme.colors.white};
   cursor: pointer;
 `;
 
