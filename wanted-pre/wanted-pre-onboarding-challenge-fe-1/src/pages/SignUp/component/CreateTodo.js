@@ -21,10 +21,15 @@ const InputInfo = styled.div``;
 
 const TitleInput = styled.input.attrs(props => ({
   placeholder: '제목',
-}))``;
+}))`
+  width: 30rem;
+`;
 
 const ContentsInput = styled.input.attrs(props => ({
   placeholder: '내용을 입력해주세요.',
-}))``;
+}))`
+  width: 30rem;
+  height: 10rem;
+`;
 
 export default CreateTodo;
