@@ -43,13 +43,11 @@ const LoginForm = () => {
         }
       )
       .then(function (response) {
-        console.log(response);
         localStorage.setItem('token', response.data.token);
         alert('성공적으로 로그인 했습니다');
         navigate('/todolist');
       })
       .catch(function (error) {
-        console.log(error);
         alert('ID 또는 비밀번호가 틀립니다.');
       });
   };

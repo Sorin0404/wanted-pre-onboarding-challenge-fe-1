@@ -40,13 +40,10 @@ const SignUp = () => {
         password: password,
       })
       .then(function (response) {
-        console.log(response);
         alert('계정이 성공적으로 생성되었습니다');
         navigate('/login');
       })
-      .catch(function (error) {
-        console.log(error);
-      });
+      .catch(function (error) {});
   };
 
   return (
@@ -55,17 +52,17 @@ const SignUp = () => {
         <SignUpPageInfo>Wanted pre onboarding SignUp Page</SignUpPageInfo>
         <SignUpForm>
           이메일 주소
-          <EmailInput onChange={handleInput} />
+          <EmailInput onChange={handleInput} required />
           {!(email.includes('@') && email.includes('.')) ? (
             <EmailForm>이메일에는 '@' 와 '.'이 포함되어야 합니다.</EmailForm>
           ) : null}
           비밀번호
-          <PasswordInput onChange={handleInput} />
+          <PasswordInput onChange={handleInput} required />
           {password.length < 8 ? (
             <PasswordLength>비밀번호는 8자리 이상이어야 합니다.</PasswordLength>
           ) : null}
           비밀번호 확인
-          <PasswordCheckInput onChange={handleInput} />
+          <PasswordCheckInput onChange={handleInput} required />
           {password !== checkpassword ? (
             <DifferentPassword>비밀번호가 일치하지 않습니다.</DifferentPassword>
           ) : null}
