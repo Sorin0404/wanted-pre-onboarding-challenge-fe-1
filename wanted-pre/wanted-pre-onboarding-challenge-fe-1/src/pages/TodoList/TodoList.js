@@ -46,7 +46,7 @@ const TodoList = () => {
   return (
     <TodoListWrapper>
       <CreateTodo />
-      <ReadTodo todoLists={todoLists} onRemove={onRemove} />
+      <ReadTodo todoLists={todoLists} onRemove={onRemove} getLists={getLists} />
     </TodoListWrapper>
   );
 };

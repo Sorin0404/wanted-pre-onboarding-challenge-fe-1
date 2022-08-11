@@ -63,7 +63,10 @@ const CreateTodoWrapper = styled.div`
   text-align: center;
 `;
 
-const InputInfo = styled.div``;
+const InputInfo = styled.div`
+  font-size: 1.5rem;
+  font-weight: bold;
+`;
 
 const TodoListForm = styled.form`
   ${props => props.theme.flex.flexBox('column')};
@@ -76,6 +79,7 @@ const TitleInput = styled.input.attrs(props => ({
 }))`
   width: 30rem;
   margin: 0.5rem;
+  font-size: 1rem;
 `;
 
 const ContentsTextarea = styled.textarea.attrs(props => ({
@@ -84,7 +88,8 @@ const ContentsTextarea = styled.textarea.attrs(props => ({
 }))`
   ${props => props.theme.flex.flexBox('', 'start')};
   width: 30rem;
-  height: 10rem;
+  height: 5rem;
+  font-size: 1rem;
 `;
 
 const PostButton = styled.button`
