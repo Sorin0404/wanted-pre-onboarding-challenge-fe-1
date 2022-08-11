@@ -52,7 +52,7 @@ const NavWrapper = styled.div`
 `;
 const LogoutButton = styled.button`
   border: none;
-  margin: 2rem 0;
+  margin: 0.7rem 0;
   width: 10rem;
   height: 3rem;
   font-size: 1.2rem;
