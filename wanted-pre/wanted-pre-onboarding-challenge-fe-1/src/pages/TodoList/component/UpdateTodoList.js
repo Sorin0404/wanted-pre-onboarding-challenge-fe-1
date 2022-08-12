@@ -1,24 +1,25 @@
 import React, { useState } from 'react';
+
+import DeleteTodoList from './DeleteTodoList';
+import { API } from '../../../config';
+
+import axios from 'axios';
 import styled from 'styled-components';
 
-import { RiDeleteBin6Line } from 'react-icons/ri';
-import { API } from '../../../config';
-import axios from 'axios';
-
-const TodoLists = ({ todoList, onRemove, getLists }) => {
+const UpdateTodoList = ({ todoList, getLists }) => {
   const { id, title, content } = todoList;
 
-  const [updateTodoList, setUpdateTodolist] = useState({
+  const [updateTodoLists, setUpdateTodolists] = useState({
     updateTitle: title,
     updateContent: content,
   });
 
-  const { updateTitle, updateContent } = updateTodoList;
+  const { updateTitle, updateContent } = updateTodoLists;
 
   const handleUpdateTodoList = e => {
     const { name, value } = e.target;
-    setUpdateTodolist({
-      ...updateTodoList,
+    setUpdateTodolists({
+      ...updateTodoLists,
       [name]: value,
     });
   };
@@ -61,7 +62,7 @@ const TodoLists = ({ todoList, onRemove, getLists }) => {
   };
 
   return (
-    <UpdateForm onSubmit={putTodoList}>
+    <UpdateTodoListWrapper onSubmit={putTodoList}>
       <TitleWrapper>
         {!isModified ? (
           <ReadTitle onClick={() => toggleMenu()}>{title}</ReadTitle>
@@ -72,9 +73,8 @@ const TodoLists = ({ todoList, onRemove, getLists }) => {
             required
           />
         )}
-        <DeletePost onClick={() => onRemove(id)}>
-          <RiDeleteBin6Line />
-        </DeletePost>
+
+        <DeleteTodoList id={id} getLists={getLists} />
       </TitleWrapper>
       {!isToggled ? null : (
         <ContentWrapper>
@@ -103,7 +103,7 @@ const TodoLists = ({ todoList, onRemove, getLists }) => {
           )}
         </ContentWrapper>
       )}
-    </UpdateForm>
+    </UpdateTodoListWrapper>
   );
 };
 
@@ -114,13 +114,15 @@ const TitleWrapper = styled.div`
   background-color: ${props => props.theme.colors.lightGray};
 `;
 
-const UpdateForm = styled.form`
+const UpdateTodoListWrapper = styled.form`
   font-size: 1rem;
 `;
 
 const ReadTitle = styled.div`
   ${props => props.theme.flex.flexBox('', 'center', 'start')};
+  width: 28rem;
   font-size: 1rem;
+
   cursor: pointer;
 `;
 
@@ -132,17 +134,15 @@ const UpdateTitle = styled.input.attrs(props => ({
   background-color: ${props => props.theme.colors.lightGray};
 `;
 
-const DeletePost = styled.div`
-  cursor: pointer;
-`;
-
 const ContentWrapper = styled.div`
   background-color: #84fffa;
 `;
 
 const ReadContent = styled.div`
   ${props => props.theme.flex.flexBox('', 'center', 'start')};
+  width: 30rem;
   font-size: 1rem;
+  white-space: pre-wrap;
 `;
 
 const UpdateContent = styled.textarea.attrs(props => ({
@@ -167,4 +167,4 @@ const ModifyingButton = styled.button`
 
 const FinishingButton = styled(ModifyingButton)``;
 
-export default TodoLists;
+export default UpdateTodoList;
