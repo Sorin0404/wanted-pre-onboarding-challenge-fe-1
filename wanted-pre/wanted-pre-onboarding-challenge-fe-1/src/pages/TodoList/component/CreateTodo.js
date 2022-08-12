@@ -1,22 +1,22 @@
 import React, { useState } from 'react';
 
+import { API } from '../../../config';
+
 import styled from 'styled-components';
 import axios from 'axios';
 
-import { API } from '../../../config';
-
 const CreateTodo = () => {
-  const [todoList, setTodolist] = useState({
+  const [todoLists, setTodolists] = useState({
     title: '',
     content: '',
   });
 
-  const { title, content } = todoList;
+  const { title, content } = todoLists;
 
   const handleInput = e => {
     const { name, value } = e.target;
-    setTodolist({
-      ...todoList,
+    setTodolists({
+      ...todoLists,
       [name]: value,
     });
   };
@@ -43,7 +43,7 @@ const CreateTodo = () => {
       .catch(function (error) {
         alert('에러가 발생했습니다.');
       });
-    setTodolist('');
+    setTodolists('');
   };
 
   return (
