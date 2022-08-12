@@ -36,5 +36,39 @@
 - [x] 새로고침을 했을 때 현재 상태가 유지되어야 합니다. <br />
 - [x] 개별 Todo를 조회 순서에 따라 페이지 뒤로가기를 통하여 조회할 수 있도록 해주세요. 
 
-- 한 페이지 내에서 새로고침 없이 데이터가 정합성을 갖추도록 구현해주세요 <br />
-- [x] 수정되는 Todo의 내용이 목록에서도 실시간으로 반영되어야 합니다 <br />
+- 한 페이지 내에서 새로고침 없이 데이터가 정합성을 갖추도록 구현해주세요. <br />
+- [x] 수정되는 Todo의 내용이 목록에서도 실시간으로 반영되어야 합니다. <br />
+
+## Week1 - Day1
+### TODO 앱 개선
+#### 함수명 변경
+delete 통신시 명확하지 않던 `onRemove` 함수명을 `deleteTodoList`로 변경했습니다.
+
+```jsx
+  const deleteTodoList = async id => {
+    try {
+      const response = await axios.delete(`${API.deleteTodo}/${id}`, {
+        headers: {
+          Authorization: 'token',
+        },
+      });
+      localStorage.getItem('token');
+      if (response.status === 200) {
+        alert(`삭제되었습니다.`);
+      }
+    } catch (error) {
+      alert('에러가 발생되었습니다.');
+    }
+    getLists();
+  };
+```
+
+#### 컴포넌트 분리
+한 컴포넌트에 다양한 기능을 넣었으나 컴포넌트에 맞는 기능만 구현 할 수 있도록 분리 했습니다.
+
+변경 전 불명확한 컴포넌트 분리 <br />
+<img width="194" alt="변경 전 컴포넌트 상황" src="https://user-images.githubusercontent.com/81001516/184344929-31c3fb70-2fb1-49fb-9439-1b6ae2739428.png"> <br />
+
+변경 후 컴포넌트 <br />
+<img width="213" alt="변경 후 컴포넌트 분리 상황" src="https://user-images.githubusercontent.com/81001516/184344666-5c2a8100-fb23-446f-84f0-46a53b82b644.png"> <br />
+
