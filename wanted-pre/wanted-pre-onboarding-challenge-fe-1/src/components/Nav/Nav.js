@@ -25,13 +25,21 @@ const Nav = () => {
       >
         메인페이지
       </MainButton>
-      <TodoListButton
-        onClick={() => {
-          navigate('/todolist');
-        }}
-      >
-        TodoList 페이지
-      </TodoListButton>
+      {localStorage.getItem('token') ? (
+        <TodoListButton onClick={() => navigate('/todolist')}>
+          TodoList 페이지
+        </TodoListButton>
+      ) : (
+        <TodoListButton
+          onClick={() => {
+            alert('로그인 후 이용 가능합니다.');
+            navigate('/login');
+          }}
+        >
+          TodoList 페이지
+        </TodoListButton>
+      )}
+
       {localStorage.getItem('token') ? (
         <LogoutButton onClick={localStorage.getItem('token') ? signOut : null}>
           로그아웃
