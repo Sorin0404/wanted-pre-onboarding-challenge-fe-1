@@ -6,6 +6,12 @@ import { API } from '../../config';
 import axios from 'axios';
 import styled from 'styled-components';
 
+interface InputType {
+  email: string;
+  password: string;
+  checkpassword: string;
+}
+
 const SignUp = () => {
   const navigate = useNavigate();
 
@@ -17,7 +23,7 @@ const SignUp = () => {
 
   const { email, password, checkpassword } = userInputs;
 
-  const handleInput = e => {
+  const handleInput = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     setUserInputs({
       ...userInputs,
@@ -31,7 +37,7 @@ const SignUp = () => {
     password.length >= 8 &&
     password === checkpassword;
 
-  const goToLogin = e => {
+  const goToLogin = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
     axios
@@ -50,7 +56,7 @@ const SignUp = () => {
     <SignUpWrapper>
       <SignUpWindow>
         <SignUpPageInfo>Wanted pre onboarding SignUp Page</SignUpPageInfo>
-        <SignUpForm>
+        <SignUpForm onSubmit={goToLogin}>
           이메일 주소
           <EmailInput onChange={handleInput} required />
           {!(email.includes('@') && email.includes('.')) ? (
@@ -66,9 +72,7 @@ const SignUp = () => {
           {password !== checkpassword ? (
             <DifferentPassword>비밀번호가 일치하지 않습니다.</DifferentPassword>
           ) : null}
-          <SignUpButton onClick={goToLogin} disabled={!isInputValid}>
-            회원가입 완료
-          </SignUpButton>
+          <SignUpButton disabled={!isInputValid}>회원가입 완료</SignUpButton>
         </SignUpForm>
       </SignUpWindow>
     </SignUpWrapper>
@@ -106,7 +110,7 @@ const EmailForm = styled.div`
   font-size: 1rem;
 `;
 
-const EmailInput = styled.input.attrs(props => ({
+const EmailInput = styled.input.attrs<InputType>(props => ({
   type: 'email',
   name: 'email',
   placeholder: '이메일 주소',
@@ -118,7 +122,7 @@ const EmailInput = styled.input.attrs(props => ({
   font-size: 1.2rem;
 `;
 
-const PasswordInput = styled(EmailInput).attrs(props => ({
+const PasswordInput = styled(EmailInput).attrs<InputType>(props => ({
   type: 'password',
   name: 'password',
   placeholder: '비밀번호',

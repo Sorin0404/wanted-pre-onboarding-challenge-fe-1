@@ -1,4 +1,4 @@
-const calcRem = size => `${size / 16}rem`;
+const calcRem = (size: number) => `${size / 16}rem`;
 
 const fontSizes = {
   // ! 15px은 16px or 14px 선택, 13px은 12px로 바꿔쓰세요.

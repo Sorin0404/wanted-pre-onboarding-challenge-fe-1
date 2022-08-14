@@ -41,9 +41,7 @@ const Nav = () => {
       )}
 
       {localStorage.getItem('token') ? (
-        <LogoutButton onClick={localStorage.getItem('token') ? signOut : null}>
-          로그아웃
-        </LogoutButton>
+        <LogoutButton onClick={() => signOut()}>로그아웃</LogoutButton>
       ) : (
         <LoginButton
           onClick={() => {

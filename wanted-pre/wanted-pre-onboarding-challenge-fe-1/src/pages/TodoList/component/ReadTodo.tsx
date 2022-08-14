@@ -17,8 +17,8 @@ const ReadTodo = () => {
         },
       });
       setTodoLists(response.data.data);
-    } catch (error) {
-      console.error(error.message);
+    } catch (error: unknown) {
+      alert(`${error}가 발생되었습니다.`);
     }
   };
 
