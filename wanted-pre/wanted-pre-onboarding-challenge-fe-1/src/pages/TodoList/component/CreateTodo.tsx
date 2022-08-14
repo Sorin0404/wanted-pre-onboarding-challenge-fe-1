@@ -5,6 +5,11 @@ import { API } from '../../../config';
 import styled from 'styled-components';
 import axios from 'axios';
 
+interface CreateTodoType {
+  title: string;
+  content: string;
+}
+
 const CreateTodo = () => {
   const [todoLists, setTodolists] = useState({
     title: '',
@@ -13,7 +18,7 @@ const CreateTodo = () => {
 
   const { title, content } = todoLists;
 
-  const handleInput = e => {
+  const handleInput = (e: { target: { name: string; value: string } }) => {
     const { name, value } = e.target;
     setTodolists({
       ...todoLists,
@@ -43,7 +48,8 @@ const CreateTodo = () => {
       .catch(function (error) {
         alert('에러가 발생했습니다.');
       });
-    setTodolists('');
+    todoLists.title = '';
+    todoLists.content = '';
   };
 
   return (
@@ -73,7 +79,7 @@ const TodoListForm = styled.form`
   text-align: center;
 `;
 
-const TitleInput = styled.input.attrs(props => ({
+const TitleInput = styled.input.attrs<CreateTodoType>(props => ({
   placeholder: '제목',
   name: 'title',
 }))`
@@ -82,7 +88,7 @@ const TitleInput = styled.input.attrs(props => ({
   font-size: 1rem;
 `;
 
-const ContentsTextarea = styled.textarea.attrs(props => ({
+const ContentsTextarea = styled.textarea.attrs<CreateTodoType>(props => ({
   placeholder: '내용을 입력해주세요.',
   name: 'content',
 }))`

@@ -7,8 +7,14 @@ import styled from 'styled-components';
 
 import { RiDeleteBin6Line } from 'react-icons/ri';
 
-const DeleteTodoList = ({ id, getLists }) => {
-  const deleteTodoList = async id => {
+const DeleteTodoList = ({
+  id,
+  getLists,
+}: {
+  id: string;
+  getLists: Function;
+}) => {
+  const deleteTodoList = async (id: string) => {
     try {
       const response = await axios.delete(`${API.deleteTodo}/${id}`, {
         headers: {

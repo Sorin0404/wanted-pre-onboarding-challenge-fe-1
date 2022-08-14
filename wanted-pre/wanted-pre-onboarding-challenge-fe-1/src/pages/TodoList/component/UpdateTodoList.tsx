@@ -6,7 +6,19 @@ import { API } from '../../../config';
 import axios from 'axios';
 import styled from 'styled-components';
 
-const UpdateTodoList = ({ todoList, getLists }) => {
+interface todoListType {
+  id: string;
+  title: string;
+  content: string;
+}
+
+const UpdateTodoList = ({
+  todoList,
+  getLists,
+}: {
+  todoList: todoListType;
+  getLists: Function;
+}) => {
   const { id, title, content } = todoList;
 
   const [updateTodoLists, setUpdateTodolists] = useState({
@@ -16,7 +28,9 @@ const UpdateTodoList = ({ todoList, getLists }) => {
 
   const { updateTitle, updateContent } = updateTodoLists;
 
-  const handleUpdateTodoList = e => {
+  const handleUpdateTodoList = (e: {
+    target: { name: string; value: string };
+  }) => {
     const { name, value } = e.target;
     setUpdateTodolists({
       ...updateTodoLists,
@@ -24,7 +38,7 @@ const UpdateTodoList = ({ todoList, getLists }) => {
     });
   };
 
-  const putTodoList = () => {
+  const putTodoList = (id: string) => {
     axios
       .put(
         `${API.updateTodo}/${id}`,
@@ -62,7 +76,7 @@ const UpdateTodoList = ({ todoList, getLists }) => {
   };
 
   return (
-    <UpdateTodoListWrapper onSubmit={putTodoList}>
+    <UpdateTodoListWrapper>
       <TitleWrapper>
         {!isModified ? (
           <ReadTitle onClick={() => toggleMenu()}>{title}</ReadTitle>
