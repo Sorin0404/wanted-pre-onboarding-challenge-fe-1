@@ -75,3 +75,46 @@ delete 통신시 명확하지 않던 `onRemove` 함수명을 `deleteTodoList`로
 변경 후 컴포넌트 <br />
 <img width="213" alt="변경 후 컴포넌트 분리 상황" src="https://user-images.githubusercontent.com/81001516/184344666-5c2a8100-fb23-446f-84f0-46a53b82b644.png"> <br />
 
+### TypeScript 변환
+
+#### index.tsx 문제
+<img width="920" alt="index_error" src="https://user-images.githubusercontent.com/81001516/184603002-3587024d-75f6-44c8-8780-69dbdc8715f9.png">
+
+```jsx
+// 해결 방법
+const root = ReactDOM.createRoot(
+  document.getElementById('root') as Element | DocumentFragment
+);
+```
+
+#### module error
+tsconfig.json 파일 생성 후 값을 넣어주니 에러 해결 완료했습니다.
+
+#### No overload matches this call.
+<img width="1104" alt="No overload matches this call" src="https://user-images.githubusercontent.com/81001516/184603617-e3c2c2e1-0cef-4b6a-aa05-05eca6baa4f4.png">
+
+styled-component 사용 시 해당 에러가 발생되어 타입 값을 지정해주어 에러를 해결했습니다.
+
+```jsx
+interface InputType {
+  email: string;
+  password: string;
+  checkpassword: string;
+}
+
+...
+
+const EmailInput = styled.input.attrs<InputType>(props => ({
+  type: 'email',
+  name: 'email',
+  placeholder: '이메일 주소',
+}))`
+  width: 20rem;
+  height: 3rem;
+  margin: 0.5rem;
+  padding: 0.7rem;
+  font-size: 1.2rem;
+`;
+```
+
+
