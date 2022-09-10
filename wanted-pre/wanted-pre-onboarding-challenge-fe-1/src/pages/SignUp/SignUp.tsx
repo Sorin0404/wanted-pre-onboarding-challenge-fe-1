@@ -1,16 +1,11 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
-import { API } from '../../config';
+import UseSignUp from '../../Hooks/auth/useSignUp';
 
-import axios from 'axios';
+import SignUpType from '../../compiler/types';
+
 import styled from 'styled-components';
-
-interface InputType {
-  email: string;
-  password: string;
-  checkpassword: string;
-}
 
 const SignUp = () => {
   const navigate = useNavigate();
@@ -39,17 +34,8 @@ const SignUp = () => {
 
   const goToLogin = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-
-    axios
-      .post(API.signUp, {
-        email: email,
-        password: password,
-      })
-      .then(function (response) {
-        alert('계정이 성공적으로 생성되었습니다');
-        navigate('/login');
-      })
-      .catch(function (error) {});
+    UseSignUp(email, password);
+    navigate('/login');
   };
 
   return (
@@ -110,7 +96,7 @@ const EmailForm = styled.div`
   font-size: 1rem;
 `;
 
-const EmailInput = styled.input.attrs<InputType>(props => ({
+const EmailInput = styled.input.attrs<SignUpType>(props => ({
   type: 'email',
   name: 'email',
   placeholder: '이메일 주소',
@@ -122,7 +108,7 @@ const EmailInput = styled.input.attrs<InputType>(props => ({
   font-size: 1.2rem;
 `;
 
-const PasswordInput = styled(EmailInput).attrs<InputType>(props => ({
+const PasswordInput = styled(EmailInput).attrs<SignUpType>(props => ({
   type: 'password',
   name: 'password',
   placeholder: '비밀번호',

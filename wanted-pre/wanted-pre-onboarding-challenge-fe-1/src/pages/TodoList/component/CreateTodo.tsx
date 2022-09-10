@@ -1,14 +1,8 @@
 import React, { useState } from 'react';
 
-import { API } from '../../../config';
-
 import styled from 'styled-components';
-import axios from 'axios';
-
-interface CreateTodoType {
-  title: string;
-  content: string;
-}
+import TodoListType from '../../../compiler/types';
+import UsePostTodoLists from '../../../Hooks/todo/usePostTodoLists';
 
 const CreateTodo = () => {
   const [todoLists, setTodolists] = useState({
@@ -26,30 +20,10 @@ const CreateTodo = () => {
     });
   };
 
-  const createTodoList = () => {
-    axios
-      .post(
-        API.createTodo,
-        {
-          title: title,
-          content: content,
-        },
-        {
-          headers: {
-            'Content-Type': 'application/json',
-            Authorization: 'token',
-          },
-        }
-      )
-      .then(function (response) {
-        localStorage.getItem('token');
-        alert('게시글이 등록되었습니다.');
-      })
-      .catch(function (error) {
-        alert('에러가 발생했습니다.');
-      });
-    todoLists.title = '';
-    todoLists.content = '';
+  const createTodoList = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    UsePostTodoLists(title, content);
+    e.currentTarget.reset();
   };
 
   return (
@@ -79,7 +53,7 @@ const TodoListForm = styled.form`
   text-align: center;
 `;
 
-const TitleInput = styled.input.attrs<CreateTodoType>(props => ({
+const TitleInput = styled.input.attrs<TodoListType>(props => ({
   placeholder: '제목',
   name: 'title',
 }))`
@@ -88,7 +62,7 @@ const TitleInput = styled.input.attrs<CreateTodoType>(props => ({
   font-size: 1rem;
 `;
 
-const ContentsTextarea = styled.textarea.attrs<CreateTodoType>(props => ({
+const ContentsTextarea = styled.textarea.attrs<TodoListType>(props => ({
   placeholder: '내용을 입력해주세요.',
   name: 'content',
 }))`

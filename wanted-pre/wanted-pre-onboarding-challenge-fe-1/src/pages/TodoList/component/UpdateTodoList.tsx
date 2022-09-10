@@ -1,24 +1,13 @@
 import React, { useState } from 'react';
 
 import DeleteTodoList from './DeleteTodoList';
-import { API } from '../../../config';
 
-import axios from 'axios';
+import TodoListType from '../../../compiler/types';
+
 import styled from 'styled-components';
+import UseUpdateTodoLIsts from '../../../Hooks/todo/useUpdateTodoLIsts';
 
-interface todoListType {
-  id: string;
-  title: string;
-  content: string;
-}
-
-const UpdateTodoList = ({
-  todoList,
-  getLists,
-}: {
-  todoList: todoListType;
-  getLists: Function;
-}) => {
+const UpdateTodoList = ({ todoList }: { todoList: TodoListType }) => {
   const { id, title, content } = todoList;
 
   const [updateTodoLists, setUpdateTodolists] = useState({
@@ -38,29 +27,8 @@ const UpdateTodoList = ({
     });
   };
 
-  const putTodoList = (id: string) => {
-    axios
-      .put(
-        `${API.updateTodo}/${id}`,
-        {
-          title: updateTitle,
-          content: updateContent,
-        },
-        {
-          headers: {
-            'Content-Type': 'application/json',
-            Authorization: 'token',
-          },
-        }
-      )
-      .then(function (response) {
-        alert('게시글이 업데이트되었습니다.');
-        localStorage.getItem('token');
-      })
-      .catch(function (error) {
-        alert('에러가 발생했습니다.');
-      });
-    getLists();
+  const putTodoList = () => {
+    UseUpdateTodoLIsts(updateTitle, updateContent, id);
   };
 
   const [isToggled, setIsToggled] = useState(false);
@@ -87,8 +55,7 @@ const UpdateTodoList = ({
             required
           />
         )}
-
-        <DeleteTodoList id={id} getLists={getLists} />
+        <DeleteTodoList id={id} setIsToggled={setIsToggled} />
       </TitleWrapper>
       {!isToggled ? null : (
         <ContentWrapper>
@@ -109,7 +76,7 @@ const UpdateTodoList = ({
             <FinishingButton
               onClick={() => {
                 changeModifiedField();
-                putTodoList(id);
+                putTodoList();
               }}
             >
               수정완료
@@ -121,22 +88,20 @@ const UpdateTodoList = ({
   );
 };
 
-const TitleWrapper = styled.div`
-  ${props => props.theme.flex.flexBox('', '', 'space-between')};
-
-  margin: 0.5rem 0;
-  background-color: ${props => props.theme.colors.lightGray};
-`;
-
 const UpdateTodoListWrapper = styled.form`
   font-size: 1rem;
+`;
+
+const TitleWrapper = styled.div`
+  ${props => props.theme.flex.flexBox('', '', 'space-between')};
+  margin: 0.5rem 0;
+  background-color: ${props => props.theme.colors.lightGray};
 `;
 
 const ReadTitle = styled.div`
   ${props => props.theme.flex.flexBox('', 'center', 'start')};
   width: 28rem;
   font-size: 1rem;
-
   cursor: pointer;
 `;
 
@@ -156,6 +121,7 @@ const ReadContent = styled.div`
   ${props => props.theme.flex.flexBox('', 'center', 'start')};
   width: 30rem;
   font-size: 1rem;
+  text-align: start;
   white-space: pre-wrap;
 `;
 

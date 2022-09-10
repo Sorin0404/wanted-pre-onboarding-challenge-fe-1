@@ -1,9 +1,10 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
-import { API } from '../../../config';
+import UseLogin from '../../../Hooks/auth/useLogin';
 
-import axios from 'axios';
+import LoginType from '../../../compiler/types';
+
 import styled from 'styled-components';
 
 const LoginForm = () => {
@@ -16,7 +17,7 @@ const LoginForm = () => {
 
   const { id, pw } = userInputs;
 
-  const handleInput = e => {
+  const handleInput = (e: { target: { name: string; value: string } }) => {
     const { name, value } = e.target;
     setUserInputs({
       ...userInputs,
@@ -26,37 +27,17 @@ const LoginForm = () => {
 
   const isInputValid = id.includes('@') && id.includes('.') && pw.length >= 8;
 
-  const goToTodoList = e => {
-    e.preventDefault();
-    axios
-      .post(
-        API.login,
-        {
-          email: id,
-          password: pw,
-        },
-        {
-          headers: {
-            'Content-Type': 'application/json',
-            Authorization: 'token',
-          },
-        }
-      )
-      .then(function (response) {
-        localStorage.setItem('token', response.data.token);
-        alert('성공적으로 로그인 했습니다');
-        navigate('/todolist');
-      })
-      .catch(function (error) {
-        alert('ID 또는 비밀번호가 틀립니다.');
-      });
+  const goToTodoList = () => {
+    UseLogin(id, pw);
+    navigate('/todolist');
+    window.location.reload();
   };
 
   return (
     <LoginFormWrapper>
       이메일 주소 <IdInput onChange={handleInput} required />
       비밀번호 <PasswordInput onChange={handleInput} required />
-      <LoginButton onClick={goToTodoList} disabled={!isInputValid}>
+      <LoginButton onClick={() => goToTodoList()} disabled={!isInputValid}>
         로그인
       </LoginButton>
     </LoginFormWrapper>
@@ -69,7 +50,7 @@ const LoginFormWrapper = styled.form`
   font-size: 1.5rem;
 `;
 
-const IdInput = styled.input.attrs(props => ({
+const IdInput = styled.input.attrs<LoginType>(props => ({
   type: 'email',
   name: 'id',
   placeholder: '이메일 주소',

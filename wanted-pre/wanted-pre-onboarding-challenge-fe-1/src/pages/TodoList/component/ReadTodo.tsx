@@ -1,36 +1,19 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 
 import UpdateTodoList from './UpdateTodoList';
-import { API } from '../../../config';
+import { UseGetTodoLists } from '../../../Hooks/todo/useGetTodoLists';
+import TodoListType from '../../../compiler/types';
 
 import styled from 'styled-components';
-import axios from 'axios';
 
 const ReadTodo = () => {
-  const [todoLists, setTodoLists] = useState([]);
-
-  const getLists = async () => {
-    try {
-      const response = await axios.get(API.getTodos, {
-        headers: {
-          Authorization: 'token',
-        },
-      });
-      setTodoLists(response.data.data);
-    } catch (error: unknown) {
-      alert(`${error}가 발생되었습니다.`);
-    }
-  };
-
-  useEffect(() => {
-    getLists();
-  }, []);
+  const getTodoLists = UseGetTodoLists();
 
   return (
     <ReadTodoWrapper>
       <TodoListInfo>TodoList</TodoListInfo>
-      {todoLists.map((todoList, index) => (
-        <UpdateTodoList todoList={todoList} key={index} getLists={getLists} />
+      {getTodoLists.map((todoList: TodoListType, index: number) => (
+        <UpdateTodoList todoList={todoList} key={index} />
       ))}
     </ReadTodoWrapper>
   );
