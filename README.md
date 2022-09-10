@@ -42,9 +42,8 @@
 - 한 페이지 내에서 새로고침 없이 데이터가 정합성을 갖추도록 구현해주세요. <br />
 - [x] 수정되는 Todo의 내용이 목록에서도 실시간으로 반영되어야 합니다. <br />
 
-## Week1 - Day1
-### TODO 앱 개선
-#### 함수명 변경
+## TODO 앱 개선
+### 함수명 변경
 delete 통신시 명확하지 않던 `onRemove` 함수명을 `deleteTodoList`로 변경했습니다.
 
 ```jsx
@@ -66,7 +65,7 @@ delete 통신시 명확하지 않던 `onRemove` 함수명을 `deleteTodoList`로
   };
 ```
 
-#### 컴포넌트 분리
+### 컴포넌트 분리
 한 컴포넌트에 다양한 기능을 넣었으나 컴포넌트에 맞는 기능만 구현 할 수 있도록 분리 했습니다.
 
 변경 전 불명확한 컴포넌트 분리 <br />
@@ -75,9 +74,9 @@ delete 통신시 명확하지 않던 `onRemove` 함수명을 `deleteTodoList`로
 변경 후 컴포넌트 <br />
 <img width="213" alt="변경 후 컴포넌트 분리 상황" src="https://user-images.githubusercontent.com/81001516/184344666-5c2a8100-fb23-446f-84f0-46a53b82b644.png"> <br />
 
-### TypeScript 변환
+## TypeScript 변환
 
-#### index.tsx 문제
+### index.tsx 문제
 <img width="920" alt="index_error" src="https://user-images.githubusercontent.com/81001516/184603002-3587024d-75f6-44c8-8780-69dbdc8715f9.png">
 
 ```jsx
@@ -87,10 +86,10 @@ const root = ReactDOM.createRoot(
 );
 ```
 
-#### module error
+### module error
 tsconfig.json 파일 생성 후 값을 넣어주니 에러 해결 완료했습니다.
 
-#### No overload matches this call.
+### No overload matches this call.
 <img width="1104" alt="No overload matches this call" src="https://user-images.githubusercontent.com/81001516/184603617-e3c2c2e1-0cef-4b6a-aa05-05eca6baa4f4.png">
 
 styled-component 사용 시 해당 에러가 발생되어 타입 값을 지정해주어 에러를 해결했습니다.
@@ -117,4 +116,62 @@ const EmailInput = styled.input.attrs<InputType>(props => ({
 `;
 ```
 
+## Custom Hook
 
+기존에 없었던 Custom Hook 을 만들어 기능에 맞는 파일을 사용 할 수 있도록 분리 시켰습니다.
+
+<img width="215" alt="Custom Hook 폴더 구조" src="https://user-images.githubusercontent.com/81001516/189472873-a0fe53c1-400c-4110-aabe-8419cc6db327.png">
+
+
+## React Query
+
+React Query를 적용하여 useQuery를 사용하여 데이터를 가져올 수 있도록 기능 구현을 했습니다.
+
+```tsx
+// useGetTodoLists.ts
+
+import { API } from '../../config';
+import axios from 'axios';
+import { useQuery } from '@tanstack/react-query';
+
+async function getLists() {
+  const { data } = await axios.get(API.getTodos, {
+    headers: {
+      Authorization: 'token',
+    },
+  });
+
+  return data.data;
+}
+
+export function UseGetTodoLists() {
+  const fallback: never[] = [];
+  const { data = fallback } = useQuery(['getTodo'], getLists);
+
+  return data;
+}
+
+
+// ReadTodo.tsx
+
+const ReadTodo = () => {
+  const getTodoLists = UseGetTodoLists();
+
+  return (
+    <ReadTodoWrapper>
+      <TodoListInfo>TodoList</TodoListInfo>
+      {getTodoLists.map((todoList: TodoListType, index: number) => (
+        <UpdateTodoList todoList={todoList} key={index} />
+      ))}
+    </ReadTodoWrapper>
+  );
+};
+```
+
+mutation을 통한 post/put/delete 기능 구현은 추후 적용 예정입니다.
+
+
+## 느낀점
+느낀점은 블로그 회고록에 적어 밑의 링크 클릭하여 확인 부탁드립니다.
+
+[블로그로 이동](https://velog.io/@sorin44/%EC%9B%90%ED%8B%B0%EB%93%9C-%ED%94%84%EB%A6%AC%EC%98%A8%EB%B3%B4%EB%94%A9-%ED%94%84%EB%A1%A0%ED%8A%B8%EC%97%94%EB%93%9C-%EC%B1%8C%EB%A6%B0%EC%A7%80-1%EC%B0%A8-%ED%9A%8C%EA%B3%A0%EB%A1%9D)
